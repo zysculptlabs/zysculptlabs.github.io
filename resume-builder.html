@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Mona+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+:root {
+  --primary-color: #1a73e8;
+  --header-bg: #1a73e8;
+  --header-text: white;
+  --text-color: #222;
+  --light-gray: #f5f5f5;
+  --border-color: #ddd;
+  --success-color: #4CAF50;
+  --error-color: #f44336;
+  --font-heading: 'Lexend', sans-serif;
+  --font-body: 'Mona Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+        
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+        
+body {
+  font-family: var(--font-body);
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+button {
+  font-family: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+}
+        
+.form-container {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+    
+.preview-container {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  width: 210mm;
+  min-height: 297mm;
+}
+        
+.preview {
+  font-family: "Times New Roman", Times, serif;
+  line-height: 1.3;
+  width: 100%;
+  height: 100%;
+  color: #222;
+  font-size: 11pt;
+  padding: 15mm;
+  box-sizing: border-box;
+}
+        
+.section {
+  margin-bottom: 25px;
+  border: 1px solid var(--light-gray);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);         
+  border-radius: 6px;
+  overflow: hidden;
+}
+        
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: white;
+  cursor: pointer;
+  user-select: none;
+}
+        
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 16px;
+}
+        
+.section-icon {
+  width: 20px;
+  height: 20px;
+}
+        
+.dropdown-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+        
+.section.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+        
+.section-content {
+  padding: 20px;
+  display: none;
+}
+        
+.section.open .section-content {
+  display: block;
+}
+        
+.section-description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+        
+.form-group {
+  margin-bottom: 15px;
+}
+        
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+        
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+        
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+}
+        
+.input-wrapper {
+  position: relative;
+}
+        
+.input-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #999;
+}
+        
+input, textarea {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: 'Mona Sans', sans-serif;
+  font-size: 14px;
+}
+        
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+        
+.experience-item, .certification-item, .skill-category-item {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 3px dotted var(--border-color);
+}
+
+.experience-item:last-child, .certification-item:last-child, .skill-category-item:last-child {
+  margin-bottom: 15px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+        
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Mona Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+        
+.btn:hover {
+  background-color: #0d5bba;
+}
+        
+.btn-icon {
+  width: 16px;
+  height: 16px;
+}
+        
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+        
+.preview .header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+        
+.preview .name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+        
+.preview .title {
+  font-size: 14px;
+  margin-bottom: 3px;
+  color: #333;
+}
+        
+.preview .contact-info {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+        
+.preview .contact-info a {
+  color: #1a73e8;
+  text-decoration: underline;
+  line-height: 1.5;
+}
+        
+.preview .section-title {
+  font-weight: bold;
+  font-size: 14px;
+  border-bottom: 2px solid #000;
+  margin: 20px 0 10px 0;
+  padding-bottom: 3px;
+}
+        
+.preview .experience {
+  margin-bottom: 20px;
+}
+        
+.preview .company {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+}
+        
+.preview .company-name {
+  font-weight: bold;
+}
+        
+.preview .location {
+  font-weight: bold;
+}
+        
+.preview .duration {
+  font-weight: normal;
+  color: #555;
+}
+        
+.preview .role {
+  font-style: italic;
+  color: #555;
+  margin: 5px 0;
+}
+        
+.preview .bullet-points {
+  list-style-type: disc;
+  margin-left: 15px;
+  padding-left: 5px;
+}
+        
+.preview .bullet-points li {
+  margin-bottom: 5px;
+}
+        
+.preview .skills-category {
+  font-weight: bold;
+  margin-top: 5px;
+}
+        
+.preview .education-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+  margin-bottom: 5px;
+}
+        
+.preview .university {
+  font-weight: bold;
+}
+        
+.preview .degree {
+  margin: 3px 0;
+}
+        
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+        
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+        
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+        
+.modal-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+}
+        
+.modal-icon.success {
+  color: var(--success-color);
+}
+        
+.modal-icon.error {
+  color: var(--error-color);
+}
+        
+.modal-icon.loading {
+  animation: spin 1s linear infinite;
+}
+        
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+        
+.modal h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+        
+.modal p {
+  color: #666;
+  margin-bottom: 20px;
+}
+        
+.font-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.font-option {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.font-option:hover {
+  background-color: var(--light-gray);
+}
+
+.font-option.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.export-options {
+  display: flex;
+  gap: 15px;
+  margin-top: 8px;
+}
+
+.export-option {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: max-content;
+  text-align: center;
+  font-size: 12px;
+  gap: 8px;
+}
+
+.export-option svg {
+  width: 24px;
+  height: 24px;
+}
+
+.export-option:hover {
+  background-color: var(--light-gray);
+}
+
+.export-option:active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.export-option:active svg {
+  stroke: white;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+            
+  .preview-container {
+    position: static;
+    max-height: none;
+    width: 100%;
+    min-height: auto;
+  }
+            
+  .preview {
+    padding: 20px;
+  }
+}
+        
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+        
+@media print {
+  body {
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #000;
+    background: none;
+    padding: 0;
+  }
+    
+  .container {
+    display: block;
+    max-width: 100%;
+  }
+    
+  .form-container, 
+  .no-print {
+    display: none !important;
+  }
+    
+  .preview-container {
+    position: static;
+    max-width: 100%;
+    max-height: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+height: auto;
+display: block !important;
+  }
+    
+  .preview {
+    font-size: 11pt;
+    max-width: 100%;
+    font-family: "Times New Roman", Times, serif;
+    padding: 0;
+  }
+    
+  .preview .contact-info a {
+    color: #000;
+    text-decoration: none;
+  }
+    
+  a[href^="http"]:after {
+    content: "" !important;
+  }
+    
+  @page {
+    margin: 1.5cm;
+  }
+}  
+</style>
+</head>
+<body>
+<div class="container">
+<div class="form-container">
+<div class="section open">
+<div class="section-header">
+<div class="section-title">
+<svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+<path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+</svg>
+Personal Information
+</div>
+<svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="section-content">
+<p class="section-description">Start with essential contact information, ensuring recruiters can easily reach you.</p>
+                    
+<div class="form-row">
+<div class="form-group">
+<label for="full-name">Full Name</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+<path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+</svg>
+<input type="text" id="full-name" placeholder="Your full name">
+</div>
+</div>
+<div class="form-group">
+<label for="job-title">Job Title</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" id="job-title" placeholder="Product Designer">
+</div>
+</div>
+</div>
+                    
+<div class="form-group">
+<label for="email">Email Address</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="email" id="email" placeholder="youremail@gmail.com">
+</div>
+</div>
+                    
+<div class="form-row">
+<div class="form-group">
+<label for="portfolio">Portfolio URL</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 3C14.5013 5.73835 15.9228 9.29203 16 13C15.9228 16.708 14.5013 20.2616 12 23C9.49872 20.2616 8.07725 16.708 8 13C8.07725 9.29203 9.49872 5.73835 12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="url" id="portfolio" placeholder="yourname.framer.website">
+</div>
+</div>
+<div class="form-group">
+<label for="linkedin">LinkedIn Profile</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 9H2V21H2V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="url" id="linkedin" placeholder="linkedin.com/in/yourprofile">
+</div>
+</div>
+</div>
+                    
+<div class="form-group">
+<label for="phone">Phone Number</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 16.92V19.92C22 20.47 21.55 20.92 21 20.92H19.92C10.38 20.92 3.07996 13.62 3.07996 4.07999V2.99999C3.07996 2.44999 3.52996 1.99999 4.07996 1.99999H7.07996C7.61996 1.99999 8.07996 2.44999 8.07996 2.99999C8.07996 5.61999 8.72996 8.15999 9.93996 10.47C10.2 10.98 10.07 11.6 9.61996 11.95L7.87996 13.38C9.19996 15.67 11.32 17.79 13.61 19.11L15.04 17.37C15.38 16.92 16.01 16.8 16.52 17.05C18.83 18.26 21.37 18.91 23.99 18.91C24.54 18.91 24.99 19.37 24.99 19.92" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="tel" id="phone" placeholder="+2348123456700">
+</div>
+</div>
+</div>
+</div>
+            
+<div class="section">
+<div class="section-header">
+<div class="section-title">
+<svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 7H4C2.89543 7 2 7.89543 2 9V19C2 20.1046 2.89543 21 4 21H20C21.1046 21 22 20.1046 22 19V9C22 7.89543 21.1046 7 20 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 21V5C16 4.46957 15.7893 3.96086 15.4142 3.58579C15.0391 3.21071 14.5304 3 14 3H10C9.46957 3 8.96086 3.21071 8.58579 3.58579C8.21071 3.96086 8 4.46957 8 5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Work Experience
+</div>
+<svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="section-content">
+<p class="section-description">Start with your current or most recent job first. Emphasize your achievements where possible.</p>
+                    
+<div id="experience-fields">
+</div>
+                    
+<button type="button" id="add-experience" class="btn" style="margin-top: 15px;">
+<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Add Experience
+</button>
+</div>
+</div>
+            
+<div class="section">
+<div class="section-header">
+<div class="section-title">
+<svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Technical Skills
+</div>
+<svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="section-content">
+<p class="section-description">Add your technical skills grouped by category.</p>
+                    
+<div id="skill-categories">
+</div>
+                    
+<button type="button" id="add-skill-category" class="btn" style="margin-top: 15px;">
+<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Add Skill Category
+</button>
+</div>
+</div>
+            
+<div class="section">
+<div class="section-header">
+<div class="section-title">
+<svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 15L12 12L15 15M12 12V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21H6C5.46957 21 4.96086 20.7893 4.58579 20.4142C4.21071 20.0391 4 19.5304 4 19V8C4 7.46957 4.21071 6.96086 4.58579 6.58579C4.96086 6.21071 5.46957 6 6 6H9L12 3L15 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Certification
+</div>
+<svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="section-content">
+<p class="section-description">List your relevant certifications and the year obtained.</p>
+                    
+<div id="certification-fields">
+</div>
+                    
+<button type="button" id="add-certification" class="btn" style="margin-top: 15px;">
+<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Add Certification
+</button>
+</div>
+</div>
+            
+<div class="section">
+<div class="section-header">
+<div class="section-title">
+<svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 6V14M12 14L16 10M12 14L8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4 18.8V9.2C4 8.0799 4 7.51984 4.21799 7.09202C4.40973 6.71569 4.71569 6.40973 5.09202 6.21799C5.51984 6 6.0799 6 7.2 6H16.8C17.9201 6 18.4802 6 18.908 6.21799C19.2843 6.40973 19.5903 6.71569 18.908 6.21799C18.4802 6 17.9201 6 16.8 6H7.2C6.0799 6 5.51984 6 5.09202 6.21799C4.71569 6.40973 4.40973 6.71569 4.21799 7.09202C4 7.51984 4 8.0799 4 9.2V18.8C4 19.9201 4 20.4802 4.21799 20.908C4.40973 21.2843 4.71569 21.5903 5.09202 21.782C5.51984 22 6.0799 22 7.2 22H16.8C17.9201 22 18.4802 22 18.908 21.782C19.2843 21.5903 19.5903 21.2843 19.782 20.908C20 20.4802 20 19.9201 20 18.8V9.2C20 8.0799 20 7.51984 19.782 7.09202C19.5903 6.71569 19.2843 6.40973 18.908 6.21799C18.4802 6 17.9201 6 16.8 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Education
+</div>
+<svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="section-content">
+<p class="section-description">List your educational background, starting with the highest degree.</p>
+                    
+<div class="form-group">
+<label for="university">University</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 9V17C22 17.5523 21.5523 18 21 18H3C2.44772 18 2 17.5523 2 17V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 9L12 15L22 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 4V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 8H6V12H8V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 8H16V12H18V8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" id="university" placeholder="Obafemi Awolowo University, Ile-Ife, Osun State, Nigeria">
+</div>
+</div>
+                    
+<div class="form-row">
+<div class="form-group">
+<label for="degree">Degree</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 3V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 6L12 3L7 6L12 9L17 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 18L12 21L7 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" id="degree" placeholder="Bachelor of Science - Computer Science">
+</div>
+</div>
+<div class="form-group">
+<label for="graduation-date">Graduation Date</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" id="graduation-date" placeholder="Nov 2021">
+</div>
+</div>
+</div>
+                    
+<div class="form-group">
+<label for="grade">Grade/GPA</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 17V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 22H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 5L10 2L12 4L14 2L17 5L15.5 8H8.5L7 5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" id="grade" placeholder="First Class Honours (4.97/5.0)">
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-header">
+<div class="section-title">
+<svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 6V3M15.09 7.92L16.5 6.5M18 11H21M15.09 16.08L16.5 17.5M12 21V18M8.91 16.08L7.5 17.5M6 12H3M8.91 7.92L7.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Customize
+</div>
+<svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<div class="section-content">
+<p class="section-description">Customize the appearance of your resume.</p>
+        
+<div class="form-group">
+<label>Font Family</label>
+<div class="font-options">
+<button type="button" class="font-option" data-font="'Times New Roman', Times, serif">Times New Roman</button>
+<button type="button" class="font-option" data-font="Georgia, serif">Georgia</button>
+<button type="button" class="font-option" data-font="Arial, sans-serif">Arial</button>
+<button type="button" class="font-option" data-font="'Inter', sans-serif">Inter</button>
+<button type="button" class="font-option" data-font="'Helvetica Neue', sans-serif">Helvetica</button>
+</div>
+</div>
+        
+<div class="form-group">
+<label>Export Options</label>
+<div class="export-options">
+<button type="button" class="export-option" id="print-option">
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 9V2H18V9M6 18H5C3.89543 18 3 17.1046 3 16V11C3 9.89543 3.89543 9 5 9H19C20.1046 9 21 9.89543 21 11V16C21 17.1046 20.1046 18 19 18H18M6 18H18M6 18V22H18V18M6 14H7M12 14H18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Print
+</button>
+
+<button type="button" class="export-option" id="pdf-option">
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+PDF
+</button>
+<button type="button" class="export-option" id="png-option">
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 15C10.1046 15 11 14.1046 11 13C11 11.8954 10.1046 11 9 11C7.89543 11 7 11.8954 7 13C7 14.1046 7.89543 15 9 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M19 15L15 9L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+PNG
+</button>
+</div>
+</div>
+</div>
+</div>       
+</div>
+
+<div class="preview-container">
+<div id="resume-preview" class="preview">
+</div>            
+</div>
+</div>
+    
+<div class="modal-overlay" id="status-modal">
+<div class="modal">
+<svg class="modal-icon" id="modal-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.93 19.07L7.76 16.24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<h3 id="modal-title">Processing</h3>
+<p id="modal-message">Generating your document, please wait...</p>
+<button class="btn" id="modal-close-btn" style="display: none;">Close</button>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const sectionHeaders = document.querySelectorAll('.section-header');
+sectionHeaders.forEach(header => {
+header.addEventListener('click', () => {
+const section = header.parentElement;
+section.classList.toggle('open');
+});
+});
+            
+const experienceFields = document.getElementById('experience-fields');
+const addExperienceBtn = document.getElementById('add-experience');
+addExperienceBtn.addEventListener('click', () => {
+const experienceItem = document.createElement('div');
+experienceItem.className = 'experience-item';
+experienceItem.innerHTML = `
+<div class="form-row">
+<div class="form-group">
+<label>Company Name</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 21H5C4.44772 21 4 20.5523 4 20V11L8 6H16L20 11V20C20 20.5523 19.5523 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 6V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 6V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4 11H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 11V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 11V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="company-name" placeholder="Company Name">
+</div>
+</div>
+<div class="form-group">
+<label>Location</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="location" placeholder="Location">
+</div>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Job Title</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="role" placeholder="Job Title">
+</div>
+</div>
+<div class="form-group">
+<label>Duration</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 9H21M7 3V5M17 3V5M6 13H8V15H6V13ZM6 17H8V19H6V17ZM11 13H13V15H11V13ZM11 17H13V19H11V17ZM16 13H18V15H16V13ZM16 17H18V19H16V17ZM6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.0799 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.0799 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="duration" placeholder="Mar 2020 - Present">
+</div>
+</div>
+</div>
+
+<div class="form-group">
+<label>Responsibilities & Achievements</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<textarea class="bullet-points" placeholder="Enter each bullet point on a new line"></textarea>
+</div>
+</div>
+<button type="button" class="btn remove-experience" style="background-color: #f44336; margin-top: 10px;">
+<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Remove Experience
+</button>
+`;
+experienceFields.appendChild(experienceItem);
+                
+const removeBtn = experienceItem.querySelector('.remove-experience');
+removeBtn.addEventListener('click', () => {
+experienceItem.remove();
+updatePreview();
+});
+                
+const inputs = experienceItem.querySelectorAll('input, textarea');
+inputs.forEach(input => {
+input.addEventListener('input', updatePreview);
+});
+});
+
+const certificationFields = document.getElementById('certification-fields');
+const addCertificationBtn = document.getElementById('add-certification');
+            
+addCertificationBtn.addEventListener('click', () => {
+const certificationItem = document.createElement('div');
+certificationItem.className = 'certification-item';
+certificationItem.innerHTML = `
+<div class="form-row">
+<div class="form-group">
+<label>Certification Name</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 15L12 12L15 15M12 12V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 19C20 19.5304 19.7893 20.0391 19.4142 20.4142C19.0391 20.7893 18.5304 21 18 21H6C5.46957 21 4.96086 20.7893 4.58579 20.4142C4.21071 20.0391 4 19.5304 4 19V8C4 7.46957 4.21071 6.96086 4.58579 6.58579C4.96086 6.21071 5.46957 6 6 6H9L12 3L15 6H18C18.5304 6 19.0391 6.21071 19.4142 6.58579C19.7893 6.96086 20 7.46957 20 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="certification-name" placeholder="Google Africa Developer Program">
+</div>
+</div>
+<div class="form-group">
+<label>Year</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="certification-year" placeholder="2022">
+</div>
+</div>
+</div>
+<button type="button" class="btn remove-certification" style="background-color: #f44336; margin-top: 10px;">
+<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Remove Certification
+</button>
+`;
+certificationFields.appendChild(certificationItem);
+                
+const removeBtn = certificationItem.querySelector('.remove-certification');
+removeBtn.addEventListener('click', () => {
+certificationItem.remove();
+updatePreview();
+});
+                
+const inputs = certificationItem.querySelectorAll('input');
+inputs.forEach(input => {
+input.addEventListener('input', updatePreview);
+});
+});
+
+// Add skill category functionality
+const skillCategories = document.getElementById('skill-categories');
+const addSkillCategoryBtn = document.getElementById('add-skill-category');
+
+addSkillCategoryBtn.addEventListener('click', () => {
+const categoryId = Date.now();
+const categoryItem = document.createElement('div');
+categoryItem.className = 'skill-category-item';
+categoryItem.dataset.id = categoryId;
+  
+categoryItem.innerHTML = `
+<div class="form-row">
+<div class="form-group">
+<label>Category Name</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 4H4V11H11V4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 4H13V11H20V4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M11 13H4V20H11V13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M20 13H13V20H20V13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="category-name" placeholder="e.g., Programming Languages">
+</div>
+</div>
+<div class="form-group">
+<label>Skills (comma separated)</label>
+<div class="input-wrapper">
+<svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<input type="text" class="category-skills" placeholder="e.g., JavaScript, Python, Java">
+</div>
+</div>
+</div>
+<button type="button" class="btn remove-skill-category" style="background-color: #f44336; margin-top: 10px;">
+<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+Remove Category
+</button>
+`;
+
+skillCategories.appendChild(categoryItem);
+  
+const removeBtn = categoryItem.querySelector('.remove-skill-category');
+removeBtn.addEventListener('click', () => {
+categoryItem.remove();
+updatePreview();
+});
+  
+const inputs = categoryItem.querySelectorAll('input');
+inputs.forEach(input => {
+input.addEventListener('input', updatePreview);
+});
+});
+
+// Add one default skill category on load
+addSkillCategoryBtn.click();
+            
+const formInputs = document.querySelectorAll('.form-container input, .form-container textarea');
+formInputs.forEach(input => {
+input.addEventListener('input', updatePreview);
+});
+            
+const statusModal = document.getElementById('status-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalMessage = document.getElementById('modal-message');
+const modalIcon = document.getElementById('modal-icon');
+const modalCloseBtn = document.getElementById('modal-close-btn');
+            
+function showModal(title, message, iconType = 'loading') {
+modalTitle.textContent = title;
+modalMessage.textContent = message;
+                
+modalIcon.innerHTML = '';
+if (iconType === 'loading') {
+modalIcon.innerHTML = `
+<path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.93 19.07L7.76 16.24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`;
+modalIcon.classList.add('modal-icon', 'loading');
+} else if (iconType === 'success') {
+modalIcon.innerHTML = `
+<path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`;
+modalIcon.classList.add('modal-icon', 'success');
+modalIcon.classList.remove('loading');
+} else {
+modalIcon.innerHTML = `
+<path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+`;
+modalIcon.classList.add('modal-icon', 'error');
+}
+                
+modalCloseBtn.style.display = iconType === 'loading' ? 'none' : 'inline-flex';
+statusModal.classList.add('active');
+}
+            
+function hideModal() {
+statusModal.classList.remove('active');
+}
+            
+modalCloseBtn.addEventListener('click', hideModal);
+            
+function generatePDF() {
+const pdfBtn = document.getElementById('pdf-option');
+const originalPdfBtnHTML = pdfBtn.innerHTML;
+                
+pdfBtn.disabled = true;
+pdfBtn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.93 19.07L7.76 16.24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Generating...';
+                
+showModal('Generating PDF', 'Please wait while we prepare your PDF document...', 'loading');
+                
+updatePreview();
+                
+setTimeout(() => {
+const element = document.getElementById('resume-preview');
+const opt = {
+margin: 10,
+filename: 'resume.pdf',
+image: { type: 'jpeg', quality: 0.98 },
+html2canvas: { 
+scale: 2,
+logging: true,
+useCORS: true,
+allowTaint: true,
+scrollX: 0,
+scrollY: 0,
+windowWidth: document.getElementById('resume-preview').scrollWidth,
+windowHeight: document.getElementById('resume-preview').scrollHeight
+},
+jsPDF: { 
+unit: 'mm', 
+format: 'a4', 
+orientation: 'portrait',
+hotfixes: ["px_scaling"] 
+}
+};
+                
+html2pdf()
+.set(opt)
+.from(element)
+.save()
+.then(() => {
+showModal('PDF Ready', 'Your PDF has been generated successfully!', 'success');
+})
+.catch(err => {
+console.error('PDF generation error:', err);
+showModal('Error', 'Failed to generate PDF. Please try again.', 'error');
+})
+.finally(() => {
+pdfBtn.disabled = false;
+pdfBtn.innerHTML = originalPdfBtnHTML;
+});
+}, 300);
+}
+            
+document.getElementById('png-option').addEventListener('click', generatePNG);
+
+function generatePNG() {
+const pngBtn = document.getElementById('png-option');
+const originalPngBtnHTML = pngBtn.innerHTML;
+  
+pngBtn.disabled = true;
+pngBtn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.93 19.07L7.76 16.24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Generating...';
+  
+showModal('Generating PNG', 'Please wait while we prepare your PNG image...', 'loading');
+  
+updatePreview();
+  
+setTimeout(() => {
+const element = document.getElementById('resume-preview');
+const originalStyles = {
+width: element.style.width,
+height: element.style.height,
+overflow: element.style.overflow,
+padding: element.style.padding,
+backgroundColor: element.style.backgroundColor
+};
+    
+element.style.width = '794px';
+element.style.height = 'auto';
+element.style.overflow = 'visible';
+element.style.padding = '40px';
+element.style.backgroundColor = '#FFFFFF';
+    
+const scale = 2;
+    
+html2canvas(element, {
+scale: scale,
+logging: true,
+useCORS: true,
+backgroundColor: '#FFFFFF',
+width: 794,
+height: 1123,
+windowWidth: element.scrollWidth,
+windowHeight: element.scrollHeight,
+scrollX: 0,
+scrollY: 0,
+onclone: (clonedDoc) => {
+const clonedElement = clonedDoc.getElementById('resume-preview');
+clonedElement.style.width = '794px';
+clonedElement.style.height = 'auto';
+clonedElement.style.overflow = 'visible';
+clonedElement.style.padding = '40px';
+clonedElement.style.backgroundColor = '#FFFFFF';
+}
+})
+.then(canvas => {
+element.style.width = originalStyles.width;
+element.style.height = originalStyles.height;
+element.style.overflow = originalStyles.overflow;
+element.style.padding = originalStyles.padding;
+element.style.backgroundColor = originalStyles.backgroundColor;
+      
+const link = document.createElement('a');
+link.download = 'resume.png';
+link.href = canvas.toDataURL('image/png');
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+      
+showModal('PNG Ready', 'Your PNG has been generated successfully!', 'success');
+})
+.catch(err => {
+console.error('PNG generation error:', err);
+showModal('Error', 'Failed to generate PNG. Please try again.', 'error');
+      
+element.style.width = originalStyles.width;
+element.style.height = originalStyles.height;
+element.style.overflow = originalStyles.overflow;
+element.style.padding = originalStyles.padding;
+element.style.backgroundColor = originalStyles.backgroundColor;
+})
+.finally(() => {
+pngBtn.disabled = false;
+pngBtn.innerHTML = originalPngBtnHTML;
+});
+}, 300);
+}
+            
+document.getElementById('pdf-option').addEventListener('click', generatePDF);
+document.getElementById('png-option').addEventListener('click', generatePNG);
+            
+function updatePreview() {
+const preview = document.getElementById('resume-preview');
+                
+const fullName = document.getElementById('full-name').value || 'Your Name';
+const jobTitle = document.getElementById('job-title').value || 'Product Designer';
+const email = document.getElementById('email').value || 'youremail@gmail.com';
+const portfolio = document.getElementById('portfolio').value || 'yourname.framer.website';
+const linkedin = document.getElementById('linkedin').value || 'linkedin.com/in/yourprofile';
+const phone = document.getElementById('phone').value || '+2348123456700';
+                
+let experienceHTML = '';
+const experienceItems = document.querySelectorAll('.experience-item');
+experienceItems.forEach(item => {
+const companyName = item.querySelector('.company-name').value || 'Company Name';
+const location = item.querySelector('.location').value || 'Location';
+const role = item.querySelector('.role').value || 'Job Title';
+const duration = item.querySelector('.duration').value || 'Duration';
+const bulletPoints = item.querySelector('.bullet-points').value || '';
+                
+experienceHTML += `
+<div class="experience">
+<div class="company">
+<span><span class="company-name">${companyName}</span> <span class="location">- ${location}</span></span>
+<span class="duration">${duration}</span>
+</div>
+<div class="role">${role}</div>
+<ul class="bullet-points">
+${bulletPoints.split('\n').filter(point => point.trim() !== '').map(point => `<li>${point}</li>`).join('')}
+</ul>
+</div>
+`;
+});
+                
+let skillsHTML = '';
+const skillCategories = document.querySelectorAll('.skill-category-item');
+skillCategories.forEach(category => {
+const categoryName = category.querySelector('.category-name').value || 'Category Name';
+const skills = category.querySelector('.category-skills').value || 'Skill 1, Skill 2';
+    
+if (categoryName.trim() || skills.trim()) {
+skillsHTML += `<li><span class="skills-category">${categoryName}:</span> ${skills}</li>`;
+}
+});
+                
+let certificationHTML = '';
+const certificationItems = document.querySelectorAll('.certification-item');
+certificationItems.forEach(item => {
+const certificationName = item.querySelector('.certification-name').value || 'Certification Name';
+const certificationYear = item.querySelector('.certification-year').value || 'Year';
+                
+certificationHTML += `<li><strong>${certificationName}:</strong> ${certificationYear}</li>`;
+});
+                
+const university = document.getElementById('university').value || 'Obafemi Awolowo University, Ile-Ife, Osun State, Nigeria';
+const degree = document.getElementById('degree').value || 'Bachelor of Science - Computer Science';
+const graduationDate = document.getElementById('graduation-date').value || 'Nov 2021';
+const grade = document.getElementById('grade').value || 'First Class Honours (4.97/5.0)';
+                
+preview.innerHTML = `
+<div class="header">
+<div class="name">${fullName}</div>
+<div class="title">${jobTitle}</div>
+<div class="contact-info">
+Portfolio: <a href="https://${portfolio}">${portfolio}</a> | 
+Email: <a href="mailto:${email}">${email}</a> | 
+Linkedin: <a href="https://${linkedin}">${linkedin}</a> | 
+Phone: <a href="tel:${phone}">${phone}</a>
+</div>
+</div>
+                    
+<div class="section-title">WORK EXPERIENCE</div>
+${experienceHTML || '<div class="experience"><div class="company"><span><span class="company-name">Company Name</span> <span class="location">- Location</span></span><span class="duration">Duration</span></div><div class="role">Job Title</div><ul class="bullet-points"><li>Your responsibilities and achievements</li></ul></div>'}
+                    
+<div class="section-title">TECHNICAL SKILLS</div>
+<ul class="bullet-points">
+${skillsHTML || '<li><span class="skills-category">Category:</span> Skill 1, Skill 2</li>'}
+</ul>
+                    
+<div class="section-title">CERTIFICATION</div>
+<ul class="bullet-points">
+${certificationHTML || '<li><strong>Certification Name:</strong> Year</li>'}
+</ul>
+                    
+<div class="section-title">EDUCATION</div>
+<div class="education-item">
+<span class="university">${university}</span>
+<span>${graduationDate}</span>
+</div>
+<div class="degree">${degree}</div>
+<ul class="bullet-points">
+<li>Grade: ${grade}</li>
+</ul>
+`;
+}
+            
+updatePreview();
+
+document.getElementById('print-option').addEventListener('click', function() {
+  updatePreview();
+   // Hide form container and show preview container properly
+    document.querySelector('.form-container').classList.add('no-print');
+    document.querySelector('.preview-container').classList.remove('no-print');
+window.print();
+setTimeout(() => {
+document.querySelector('.form-container').style.display = 'block';
+}, 1000);
+});
+
+window.matchMedia('print').addListener(function(mql) {
+if (mql.matches) {
+console.log('Printing...');
+} else {
+console.log('Print completed or canceled');
+}
+});           
+
+const fontOptions = document.querySelectorAll('.font-option');
+fontOptions.forEach(option => {
+option.addEventListener('click', () => {
+fontOptions.forEach(opt => opt.classList.remove('active'));
+option.classList.add('active');
+const fontFamily = option.getAttribute('data-font');
+document.getElementById('resume-preview').style.fontFamily = fontFamily;
+});
+});
+
+document.querySelector('.font-option[data-font="\'Times New Roman\', Times, serif"]').classList.add('active');
+});
+</script>
+</body>
+</html>
