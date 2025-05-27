@@ -1349,7 +1349,7 @@ Return to Website
 // Fetch job data from JSON file
 async function fetchJobData() {
   try {
-    const response = await fetch('/job/job-data.json');
+    const response = await fetch('https://zysculptlabs.github.io/job/job-data.json');
     if (!response.ok) {
       throw new Error('Failed to fetch job data');
     }
