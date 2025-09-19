@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Zysculpt pools jobs from the web, cut your application time, and power up your skillset to become the person who gets the job.">
+<meta name="keywords" content="job board, resume builder, portfolio templates, job search, career tools">
+<meta name="author" content="Zysculpt">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="Zysculpt | Job Board, Resume Builder & Portfolio Templates">
+<meta property="og:description" content="Pools jobs from the web, cuts your application time, and powers up your skillset to become the person who gets the job.">
+<meta property="og:image" content="https://res.cloudinary.com/dx6kkt2mh/image/upload/v1755091844/blue-portrait_bltr0n.png">
+<meta property="og:url" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zysculpt | Job Board, Resume Builder & Portfolio Templates">
+<meta name="twitter:description" content="Pools jobs from the web, cuts your application time, and powers up your skillset to become the person who gets the job.">
+<meta name="twitter:image" content="https://res.cloudinary.com/dx6kkt2mh/image/upload/v1755091844/blue-portrait_bltr0n.png">
+<title>Zysculpt | Job Board, Resume Builder & Portfolio Templates</title>
+<link rel="preconnect" href="https://res.cloudinary.com">
+<link rel="icon" href="/favicon/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+margin: 0;
+padding: 0;
+height: 100vh;
+width: 100vw;
+overflow: hidden;
+background-color: #000;
+}
+.video-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+video {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.poster-image {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+z-index: 2;
+display: block;
+}
+.video-loaded .poster-image {
+display: none;
+}
+</style>
+</head>
+<body>
+<div class="video-container">
+<img src="https://res.cloudinary.com/dx6kkt2mh/image/upload/v1755091844/blue-portrait_bltr0n.png" class="poster-image" alt="Zysculpt Coming Soon">
+<video autoplay loop muted playsinline webkit-playsinline x-webkit-airplay="allow" preload="auto" poster="https://res.cloudinary.com/dx6kkt2mh/image/upload/v1755091844/blue-portrait_bltr0n.png">
+<source src="https://res.cloudinary.com/dx6kkt2mh/video/upload/v1755091846/blue-portrait_ptrewl.mp4" type="video/mp4">
+</video>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const video = document.querySelector('video');
+const container = document.querySelector('.video-container');
+const poster = document.querySelector('.poster-image');
+  
+video.addEventListener('loadeddata', function() {
+container.classList.add('video-loaded');
+});
+  
+setTimeout(function() {
+if (video.readyState < 3) {
+video.load();
+video.play().catch(e => {
+poster.style.display = 'block';
+});
+}
+}, 1000);
+  
+document.body.addEventListener('click', function() {
+video.play().catch(e => {
+poster.style.display = 'block';
+});
+}, {once: true});
+});
+</script>
+</body>
+</html>
